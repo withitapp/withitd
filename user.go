@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"time"
 )
 
@@ -14,6 +15,25 @@ type User struct {
 	FirstName  string
 	LastName   string
 	FacebookID string
+}
+
+// Selects a user row using the given ID field
+// BUG Returns a dummy user
+func SelectUser(id int) (*User, error) {
+	if id == 0 {
+		return nil, errors.New("Not valid User.ID")
+	}
+
+	return &User{
+		ID:         id,
+		CreatedAt:  time.Now(),
+		UpdatedAt:  time.Now(),
+		Username:   "jdoe",
+		Email:      "john@doe.me",
+		FirstName:  "John",
+		LastName:   "Doe",
+		FacebookID: "13450134143249",
+	}, nil
 }
 
 // TODO Implement User.FriendshipIDs() []int
