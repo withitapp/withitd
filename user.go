@@ -36,6 +36,14 @@ func SelectUser(id int) (*User, error) {
 	}, nil
 }
 
+// TODO Implement SelectUsers(ids []int) ([]*User, error)
+
+// TODO Implement InsertUser(user *User) (int, error)
+
+// TODO Implement UpdateUser(user *User) error
+
+// TODO Implement RemoveUser(user *User) error
+
 // TODO Implement User.FriendshipIDs() []int
 
 // TODO Implement User.InvitationIDs() []int
