@@ -46,6 +46,4 @@ func SelectUser(id int) (*User, error) {
 
 // TODO Implement User.FriendshipIDs() []int
 
-// TODO Implement User.InvitationIDs() []int
-
 // TODO Implement User.MembershipIDs() []int
