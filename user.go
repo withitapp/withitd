@@ -17,5 +17,5 @@ type User struct {
 }
 
 func (u *User) Validate() []error {
-
+	return nil
 }

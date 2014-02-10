@@ -1,14 +1,16 @@
 package main
 
 import (
+	"database/sql"
 	"errors"
-	"time"
 )
 
-type UserTable struct{}
+type UserTable struct {
+	db *sql.DB
+}
 
-func NewUserTable() *UserTable {
-	return &UserTable{}
+func NewUserTable(db *sql.DB) *UserTable {
+	return &UserTable{db}
 }
 
 // BUG Implement
