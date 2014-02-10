@@ -15,3 +15,7 @@ type User struct {
 	LastName   string
 	FacebookID string
 }
+
+func (u *User) Validate() []error {
+
+}
