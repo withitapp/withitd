@@ -15,4 +15,7 @@ type Poll struct {
 	EndsAt      time.Time
 }
 
-// TODO Implement Poll.MembershipIDs() []int
+//TODO Implement
+func (p *Poll) Validate() []error {
+	return nil
+}
