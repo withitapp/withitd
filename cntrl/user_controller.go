@@ -1,8 +1,8 @@
 package cntrl
 
 import (
+	"errors"
 	"github.com/withitapp/withitd/dbase"
-	"github.com/withitapp/withitd/model"
 	"net/url"
 )
 
@@ -15,17 +15,17 @@ func (c *UserController) Index() interface{} {
 }
 
 func (c *UserController) Show(id int) (interface{}, error) {
-	return &model.User{}, nil
+	return c.Conn.UserTable.Select(id)
 }
 
 func (c *UserController) Create(values url.Values) (int, error) {
-	return 0, nil
+	return 0, errors.New("cntrl.UserController.Create(): not implemented")
 }
 
 func (c *UserController) Update(id int, values url.Values) error {
-	return nil
+	return errors.New("cntrl.UserController.Update(): not implemented")
 }
 
 func (c *UserController) Delete(id int) error {
-	return nil
+	return errors.New("cntrl.UserController.Delete(): not implemented")
 }
