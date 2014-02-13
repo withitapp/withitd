@@ -17,11 +17,8 @@ func main() {
 	userController := &cntrl.UserController{dbaseConn}
 	userHandler := NewControllerHandler(userController)
 
-	appHandler := &APPHandler{
-		map[string]http.Handler{
-			"/users": userHandler,
-		},
-	}
+	appHandler := NewAPPHandler()
+	appHandler.AddHandler("/users", userHandler)
 
 	server := &http.Server{
 		Addr:           ":3000",
