@@ -29,15 +29,3 @@ func main() {
 	println("Starting http server at port 3000 ...")
 	server.ListenAndServe()
 }
-
-type APPHandler struct {
-	Handlers map[string]http.Handler
-}
-
-func (ah *APPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	for path, handler := range ah.Handlers {
-		if path == r.URL.Path {
-			handler.ServeHTTP(w, r)
-		}
-	}
-}
