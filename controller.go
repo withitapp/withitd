@@ -19,8 +19,8 @@ func NewControllerHandler(controller Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var (
 			response interface{}
-			err error
-			id int
+			err      error
+			id       int
 		)
 
 		idString := r.URL.Query().Get("id")

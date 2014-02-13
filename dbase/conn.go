@@ -15,17 +15,22 @@ type Conn struct {
 }
 
 func NewConn(url string) (*Conn, error) {
-	dbConn, err := sql.Open("mysql", url)
+	dbConn, err := sql.Open("mysql", url+"?parseTime=true")
 	if err != nil {
-		panic(err)
+		return nil, err
+	}
+
+	err = dbConn.Ping()
+	if err != nil {
+		return nil, err
 	}
 
 	return &Conn{
 		dbConn:          dbConn,
-		UserTable:       &UserTable{},
-		PollTable:       &PollTable{},
-		MembershipTable: &MembershipTable{},
-		FriendshipTable: &MembershipTable{},
+		UserTable:       &UserTable{dbConn},
+		PollTable:       &PollTable{dbConn},
+		MembershipTable: &MembershipTable{dbConn},
+		FriendshipTable: &MembershipTable{dbConn},
 	}, nil
 }
 
