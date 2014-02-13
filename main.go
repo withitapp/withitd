@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/withitapp/withitd/cntrl"
 	"github.com/withitapp/withitd/dbase"
 	"net/http"
 	"net/url"
@@ -11,7 +12,7 @@ import (
 
 func main() {
 	userTable := &dbase.UserTable{}
-	userController := &UserController{userTable}
+	userController := &cntrl.UserController{userTable}
 	userHandler := NewControllerHandler(userController)
 
 	appHandler := &APPHandler{
