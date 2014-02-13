@@ -19,7 +19,6 @@ func NewConn(url string) (*Conn, error) {
 	if err != nil {
 		panic(err)
 	}
-	//defer db.Close()
 
 	return &Conn{
 		dbConn:          dbConn,
@@ -28,4 +27,8 @@ func NewConn(url string) (*Conn, error) {
 		MembershipTable: &MembershipTable{},
 		FriendshipTable: &MembershipTable{},
 	}, nil
+}
+
+func (c *Conn) Close() {
+	c.dbConn.Close()
 }

@@ -12,6 +12,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer dbaseConn.Close()
 
 	userController := &cntrl.UserController{dbaseConn}
 	userHandler := NewControllerHandler(userController)
