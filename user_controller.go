@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/withitapp/withitd/model"
 	"net/url"
 )
 
@@ -13,7 +14,7 @@ func (c *UserController) Index() interface{} {
 }
 
 func (c *UserController) Show(id int) (interface{}, error) {
-	return &User{}, nil
+	return &model.User{}, nil
 }
 
 func (c *UserController) Create(values url.Values) (int, error) {

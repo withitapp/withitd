@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"errors"
+	"github.com/withitapp/withitd/model"
 )
 
 type MembershipTable struct {
@@ -14,26 +15,26 @@ func NewMembershipTable(db *sql.DB) *MembershipTable {
 }
 
 // BUG Implement
-func (t *MembershipTable) Select(id int) (*Membership, error) {
+func (t *MembershipTable) Select(id int) (*model.Membership, error) {
 	return nil, errors.New("not implemented")
 }
 
 // BUG Implement
-func (t *MembershipTable) SelectAll(id []int) (*[]Membership, error) {
+func (t *MembershipTable) SelectAll(id []int) (*[]model.Membership, error) {
 	return nil, errors.New("not implemented")
 }
 
 // BUG Implement
-func (t *MembershipTable) Insert(membership *Membership) (int, error) {
+func (t *MembershipTable) Insert(membership *model.Membership) (int, error) {
 	return 0, errors.New("not implemented")
 }
 
 // BUG Implement
-func (t *Membership) Update(membership *Membership) error {
+func (t *MembershipTable) Update(membership *model.Membership) error {
 	return errors.New("not implemented")
 }
 
 // BUG Implement
-func (t *MembershipTable) Remove(membership *Membership) error {
+func (t *MembershipTable) Remove(membership *model.Membership) error {
 	return errors.New("not implemented")
 }

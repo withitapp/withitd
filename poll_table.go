@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"errors"
+	"github.com/withitapp/withitd/model"
 )
 
 type PollTable struct {
@@ -14,26 +15,26 @@ func NewPollTable(db *sql.DB) *PollTable {
 }
 
 // BUG Implement
-func (t *PollTable) Select(id int) (*Poll, error) {
+func (t *PollTable) Select(id int) (*model.Poll, error) {
 	return nil, errors.New("not implemented")
 }
 
 // BUG Implement
-func (t *PollTable) SelectAll(id []int) (*[]Poll, error) {
+func (t *PollTable) SelectAll(id []int) (*[]model.Poll, error) {
 	return nil, errors.New("not implemented")
 }
 
 // BUG Implement
-func (t *PollTable) Insert(poll *Poll) (int, error) {
+func (t *PollTable) Insert(poll *model.Poll) (int, error) {
 	return 0, errors.New("not implemented")
 }
 
 // BUG Implement
-func (t *PollTable) Update(poll *Poll) error {
+func (t *PollTable) Update(poll *model.Poll) error {
 	return errors.New("not implemented")
 }
 
 // BUG Implement
-func (t *PollTable) Remove(poll *Poll) error {
+func (t *PollTable) Remove(poll *model.Poll) error {
 	return errors.New("not implemented")
 }
