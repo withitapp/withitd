@@ -1,12 +1,13 @@
 package main
 
 import (
+	"github.com/withitapp/withitd/dbase"
 	"github.com/withitapp/withitd/model"
 	"net/url"
 )
 
 type UserController struct {
-	Table *UserTable
+	Table *dbase.UserTable
 }
 
 func (c *UserController) Index() interface{} {
