@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	dbaseConn, err := dbase.NewConn()
+	dbaseConn, err := dbase.NewConn("root:root@tcp(localhost:3306)/withit")
 	if err != nil {
 		panic(err)
 	}
