@@ -8,8 +8,12 @@ import (
 )
 
 func main() {
-	userTable := &dbase.UserTable{}
-	userController := &cntrl.UserController{userTable}
+	dbaseConn, err := dbase.NewConn()
+	if err != nil {
+		panic(err)
+	}
+
+	userController := &cntrl.UserController{dbaseConn}
 	userHandler := NewControllerHandler(userController)
 
 	appHandler := &APPHandler{

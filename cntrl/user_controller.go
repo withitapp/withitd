@@ -7,7 +7,7 @@ import (
 )
 
 type UserController struct {
-	Table *dbase.UserTable
+	Conn *dbase.Conn
 }
 
 func (c *UserController) Index() interface{} {
