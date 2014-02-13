@@ -17,13 +17,16 @@ type Controller interface {
 
 func NewControllerHandler(controller Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		idString := r.URL.Query().Get("id")
-		id, err := strconv.Atoi(idString)
-		if err != nil {
-			panic(err)
-		}
+		var (
+			response interface{}
+			err error
+			id int
+		)
 
-		var response interface{}
+		idString := r.URL.Query().Get("id")
+		if idString != "" {
+			id, err = strconv.Atoi(idString)
+		}
 
 		switch r.Method {
 		case "GET":
@@ -33,7 +36,7 @@ func NewControllerHandler(controller Controller) http.HandlerFunc {
 				response = controller.Index()
 			}
 		case "PUT", "POST":
-			id, err = controller.Create(r.PostForm)
+			response, err = controller.Create(r.PostForm)
 		case "UPDATE":
 			err = controller.Update(id, r.PostForm)
 		case "DELETE":
@@ -42,7 +45,7 @@ func NewControllerHandler(controller Controller) http.HandlerFunc {
 		}
 
 		if err != nil {
-			panic(err)
+			response = err.Error()
 		}
 
 		jsonBlob, err := json.Marshal(response)
