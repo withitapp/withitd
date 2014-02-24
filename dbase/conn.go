@@ -11,9 +11,9 @@ type Conn struct {
 	dbConn *sql.DB
 
 	UserTable       *ninow.Table
-	PollTable       *PollTable
-	MembershipTable *MembershipTable
-	FriendshipTable *MembershipTable
+	PollTable       *ninow.Table
+	MembershipTable *ninow.Table
+	FriendshipTable *ninow.Table
 }
 
 func NewConn(url string) (*Conn, error) {
@@ -30,9 +30,9 @@ func NewConn(url string) (*Conn, error) {
 	return &Conn{
 		dbConn:          dbConn,
 		UserTable:       ninow.TableFor(model.User{}, dbConn),
-		PollTable:       &PollTable{dbConn},
-		MembershipTable: &MembershipTable{dbConn},
-		FriendshipTable: &MembershipTable{dbConn},
+		PollTable:       ninow.TableFor(model.Poll{}, dbConn),
+		MembershipTable: ninow.TableFor(model.Membership{}, dbConn),
+		FriendshipTable: ninow.TableFor(model.Friendship{}, dbConn),
 	}, nil
 }
 
