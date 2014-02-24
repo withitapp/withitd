@@ -3,12 +3,14 @@ package dbase
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/oguzbilgic/ninow"
+	"github.com/withitapp/withitd/model"
 )
 
 type Conn struct {
 	dbConn *sql.DB
 
-	UserTable       *UserTable
+	UserTable       *ninow.Table
 	PollTable       *PollTable
 	MembershipTable *MembershipTable
 	FriendshipTable *MembershipTable
@@ -27,7 +29,7 @@ func NewConn(url string) (*Conn, error) {
 
 	return &Conn{
 		dbConn:          dbConn,
-		UserTable:       &UserTable{dbConn},
+		UserTable:       ninow.TableFor(model.User{}, dbConn),
 		PollTable:       &PollTable{dbConn},
 		MembershipTable: &MembershipTable{dbConn},
 		FriendshipTable: &MembershipTable{dbConn},
