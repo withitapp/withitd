@@ -24,7 +24,6 @@ func Presence(str string) error {
 }
 
 func Length(str string, less int, greater int) error {
-	//TODO should this be >= <= instead of > <?
 	if len(str) > greater || len(str) < less {
 		return errors.New("string is invalid.")
 	}
