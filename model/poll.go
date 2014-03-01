@@ -15,7 +15,10 @@ type Poll struct {
 	EndsAt      time.Time
 }
 
-//TODO Implement
-func (p *Poll) Validate() []error {
-	return nil
+func (p *Poll) Validate() error {
+	stringLengthMax := 25
+	stringLengthMin := 4
+
+	//Check Title
+	return vldte.Length(u.Username, stringLengthMin, stringLengthMax)
 }
