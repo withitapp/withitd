@@ -47,3 +47,13 @@ func AlphaNumeric(str string) error {
 	}
 	return nil
 }
+
+func Alphabetic(str string) error {
+	var validAlpha = regexp.MustCompile(`^[a-zA-Z]+$`)
+
+	if !validAlpha.MatchString(str) {
+		return errors.New("string is not alphabetic.")
+	}
+	return nil
+
+}
