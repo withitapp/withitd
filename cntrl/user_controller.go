@@ -10,8 +10,8 @@ type UserController struct {
 	Conn *dbase.Conn
 }
 
-func (c *UserController) Index() interface{} {
-	return nil
+func (c *UserController) Index() (interface{}, error) {
+	return nil, nil
 }
 
 func (c *UserController) Show(id int) (interface{}, error) {

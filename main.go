@@ -15,10 +15,11 @@ func main() {
 	defer dbaseConn.Close()
 
 	userController := &cntrl.UserController{dbaseConn}
-	userHandler := NewControllerHandler(userController)
+	pollController := &cntrl.PollController{dbaseConn}
 
 	appHandler := NewAPPHandler()
-	appHandler.AddHandler("/users", userHandler)
+	appHandler.AddHandler("/users", NewControllerHandler(userController))
+	appHandler.AddHandler("/polls", NewControllerHandler(pollController))
 
 	server := &http.Server{
 		Addr:           ":3000",

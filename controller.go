@@ -8,7 +8,7 @@ import (
 )
 
 type Controller interface {
-	Index() interface{}
+	Index() (interface{}, error)
 	Show(ID int) (interface{}, error)
 	Create(values url.Values) (int, error)
 	Update(ID int, values url.Values) error
@@ -33,7 +33,7 @@ func NewControllerHandler(controller Controller) http.HandlerFunc {
 			if id != 0 {
 				response, err = controller.Show(id)
 			} else {
-				response = controller.Index()
+				response, err = controller.Index()
 			}
 		case "PUT", "POST":
 			response, err = controller.Create(r.PostForm)
