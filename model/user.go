@@ -1,20 +1,20 @@
 package model
 
 import (
-	"time"
 	"github.com/withitapp/withitd/vldte"
+	"time"
 )
 
 // Struct to represent the user of the app and their associated data
 type User struct {
-	ID         int
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
-	Username   string
-	Email      string
-	FirstName  string
-	LastName   string
-	FacebookID string
+	ID         int       "json:`id`"
+	CreatedAt  time.Time "json:`created_at`"
+	UpdatedAt  time.Time "json:`updated_at`"
+	Username   string    "json:`username`"
+	Email      string    "json:`email`"
+	FirstName  string    "json:`first_name`"
+	LastName   string    "json:`last_name`"
+	FacebookID string    "json:`facebook_id`"
 }
 
 func (u *User) Validate() error {
