@@ -2,6 +2,7 @@ package model
 
 import (
 	"time"
+	"github.com/withitapp/withitd/vldte"
 )
 
 // Struct to represent a poll for the app
@@ -20,5 +21,5 @@ func (p *Poll) Validate() error {
 	stringLengthMin := 4
 
 	//Check Title
-	return vldte.Length(u.Username, stringLengthMin, stringLengthMax)
+	return vldte.Length(p.Title, stringLengthMin, stringLengthMax)
 }
