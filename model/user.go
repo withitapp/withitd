@@ -7,14 +7,14 @@ import (
 
 // Struct to represent the user of the app and their associated data
 type User struct {
-	ID         int       "json:`id`"
-	CreatedAt  time.Time "json:`created_at`"
-	UpdatedAt  time.Time "json:`updated_at`"
-	Username   string    "json:`username`"
-	Email      string    "json:`email`"
-	FirstName  string    "json:`first_name`"
-	LastName   string    "json:`last_name`"
-	FacebookID string    "json:`facebook_id`"
+	ID         int       `json:"id"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+	Username   string    `json:"username"`
+	Email      string    `json:"email"`
+	FirstName  string    `json:"first_name"`
+	LastName   string    `json:"last_name"`
+	FacebookID string    `json:"facebook_id"`
 }
 
 func (u *User) Validate() error {
