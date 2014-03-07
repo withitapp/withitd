@@ -6,7 +6,9 @@ CREATE TABLE `users` (
 	`email` VARCHAR(99) NOT NULL,
 	`first_name` VARCHAR(99) NOT NULL,
 	`last_name` VARCHAR(99) NOT NULL,
-	`facebook_id` VARCHAR(99) NOT NULL,
+	`fb_id` VARCHAR(99) NOT NULL,
+	`fb_token` VARCHAR(99) NOT NULL,
+	`fb_synect_at` DATETIME NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
