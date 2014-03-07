@@ -14,7 +14,9 @@ type User struct {
 	Email      string    `json:"email"`
 	FirstName  string    `json:"first_name"`
 	LastName   string    `json:"last_name"`
-	FacebookID string    `json:"facebook_id"`
+	FbID       string    `json:"fb_id"`
+	FbToken    string    `json:"fb_token"`
+	FbSyncedAt time.Time `json:"fb_synced_at"`
 }
 
 func (u *User) Validate() error {
@@ -61,7 +63,7 @@ func (u *User) Validate() error {
 	}
 
 	//Check Facebook ID
-	err = vldte.Numeric(u.FacebookID)
+	err = vldte.Numeric(u.FbID)
 	if err != nil {
 		return err
 	}
