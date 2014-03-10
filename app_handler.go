@@ -5,11 +5,11 @@ import (
 )
 
 type APPHandler struct {
-	Handlers map[string]http.Handler
+	Handlers map[string]http.HandlerFunc
 }
 
 func NewAPPHandler() *APPHandler {
-	return &APPHandler{map[string]http.Handler{}}
+	return &APPHandler{map[string]http.HandlerFunc{}}
 }
 
 func (ah *APPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -20,6 +20,6 @@ func (ah *APPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (ah *APPHandler) AddHandler(path string, handler http.Handler) {
+func (ah *APPHandler) AddHandler(path string, handler http.HandlerFunc) {
 	ah.Handlers[path] = handler
 }
