@@ -27,28 +27,7 @@ func main() {
 		data := r.PostForm
 		id := data["fb_id"][0]
 		token := data["fb_token"][0]
-
-		fmt.Println(id, token)
-
-		fbApp := facebook.New("514907081964376", "39cb26381e1cb82ae689ff1d7755f577")
-		fbApp.RedirectUri = "http://withitapp.com/"
-
-		session := fbApp.Session(token)
-
-		res, err := session.Get("/me/feed", nil)
-
-		var name string
-		res.DecodeField("first_name", &name)
-		if err != nil {
-			panic(err)
-		}
-
-		err = session.Validate()
-		if err != nil {
-			panic(err)
-		}
-
-		fmt.Println(name)
+		FetchUser(id, token)
 	})
 
 	server := &http.Server{
@@ -59,6 +38,30 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 
+	FetchUser("624807175", "CAAIK6ZAZCePloBAC556xyZAEJUR7dvgY0mkHDvOwx4PqUexQDLKp0soudZCkxfB722VkZAICGb7BiW01qGh54Lc8bwo1cxLfc9bcbwqKyAVcriZBrsCLA3ZBZBCrnsJyZCp2Q6BGZBk7KBFop1EcZAWodTMa9U6nICwszd1noAczkNAdQ5pgRpt9ILoavdWnXFtr")
+
 	println("Starting http server at port 3000 ...")
 	server.ListenAndServe()
+}
+
+func FetchUser(id string, token string) {
+	fbApp := facebook.New("514907081964376", "39cb26381e1cb82ae689ff1d7755f577")
+	fbApp.RedirectUri = "http://withitapp.com/"
+
+	session := fbApp.Session(token)
+
+	res, err := session.Get("/me/feed", nil)
+
+	var name string
+	res.DecodeField("first_name", &name)
+	if err != nil {
+		panic(err)
+	}
+
+	err = session.Validate()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(name)
 }
