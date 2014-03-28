@@ -7,8 +7,8 @@ import (
 */
 
 type User struct {
-	ID  string `json:"id" facebook:"id,required"`
-	Bio string `json:"bio" facebook:"bio,required"`
+	ID                 string `json:"id" facebook:"id,required"`
+	Bio                string `json:"bio" facebook:"bio,required"`
 	Birthday           string `json:"birthday" facebook:"birthday,required"`
 	Email              string `json:"email" facebook:"email,required"`
 	FirstName          string `json:"first_name" facebook: "first_name,required"`
