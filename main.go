@@ -1,23 +1,35 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/huandu/facebook"
 	"github.com/withitapp/withitd/cntrl"
 	"github.com/withitapp/withitd/dbase"
+	"github.com/withitapp/withitd/fbook"
+	"github.com/withitapp/withitd/model"
 	"net/http"
 	"time"
 )
 
+var (
+	db  *dbase.Conn
+	fb  *facebook.App
+	err error
+)
+
 func main() {
-	dbaseConn, err := dbase.NewConn("root:root@tcp(localhost:3306)/withit")
+	db, err = dbase.NewConn("root:root@tcp(localhost:3306)/withit")
 	if err != nil {
 		panic(err)
 	}
-	defer dbaseConn.Close()
+	defer db.Close()
 
-	userController := &cntrl.UserController{dbaseConn}
-	pollController := &cntrl.PollController{dbaseConn}
+	fb = facebook.New("514907081964376", "39cb26381e1cb82ae689ff1d7755f577")
+	fb.RedirectUri = "http://withitapp.com/"
+
+	userController := &cntrl.UserController{db}
+	pollController := &cntrl.PollController{db}
 
 	appHandler := NewAPPHandler()
 	appHandler.AddHandler("/users", NewControllerHandler(userController))
@@ -25,9 +37,20 @@ func main() {
 	appHandler.AddHandler("/auth", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		data := r.PostForm
+
 		id := data["fb_id"][0]
 		token := data["fb_token"][0]
-		FetchUser(id, token)
+		fmt.Println(id)
+		fmt.Println(token)
+
+		user := FetchUser(id, token)
+		jsonBlob, err := json.Marshal(user)
+		if err != nil {
+			panic(err)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonBlob)
 	})
 
 	server := &http.Server{
@@ -42,24 +65,45 @@ func main() {
 	server.ListenAndServe()
 }
 
-func FetchUser(id string, token string) {
-	fbApp := facebook.New("514907081964376", "39cb26381e1cb82ae689ff1d7755f577")
-	fbApp.RedirectUri = "http://withitapp.com/"
-
-	session := fbApp.Session(token)
-
-	res, err := session.Get("/me/feed", nil)
-
-	var name string
-	res.DecodeField("first_name", &name)
-	if err != nil {
-		panic(err)
+func FetchUser(id string, token string) *model.User {
+	user, err := db.UserTable.SelectBy("fb_id", id)
+	if err == nil && user != nil {
+		println("existing user")
+		return user.(*model.User)
 	}
 
+	session := fb.Session(token)
+
+	res, err := session.Get("/me", nil)
 	err = session.Validate()
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(name)
+	fbUser := fbook.User{}
+	err = res.Decode(&fbUser)
+	if err != nil {
+		panic(err)
+	}
+
+	newUser := &model.User{
+		CreatedAt:  time.Now(),
+		UpdatedAt:  time.Now(),
+		Username:   fbUser.Username,
+		Email:      fbUser.Email,
+		FirstName:  fbUser.FirstName,
+		LastName:   fbUser.LastName,
+		FbID:       id,
+		FbToken:    token,
+		FbSyncedAt: time.Now(),
+	}
+
+	newUserId, err := db.UserTable.Insert(newUser)
+	if err != nil {
+		panic(err)
+	}
+
+	newUser.ID = newUserId
+
+	return newUser
 }
