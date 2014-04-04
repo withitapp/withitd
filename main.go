@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/huandu/facebook"
-	"github.com/withitapp/withitd/cntrl"
 	"github.com/withitapp/withitd/dbase"
 	"github.com/withitapp/withitd/fbook"
 	"github.com/withitapp/withitd/model"
@@ -28,13 +27,13 @@ func main() {
 	fb = facebook.New("514907081964376", "39cb26381e1cb82ae689ff1d7755f577")
 	fb.RedirectUri = "http://withitapp.com/"
 
-	userController := &cntrl.UserController{db}
-	pollController := &cntrl.PollController{db}
+	userController := &UserController{db}
+	pollController := &PollController{db}
 
-	appHandler := NewAPPHandler()
-	appHandler.AddHandler("/users", NewControllerHandler(userController))
-	appHandler.AddHandler("/polls", NewControllerHandler(pollController))
-	appHandler.AddHandler("/auth", func(w http.ResponseWriter, r *http.Request) {
+	router := NewRouter()
+	router.AddHandler("/users", NewControllerHandler(userController))
+	router.AddHandler("/polls", NewControllerHandler(pollController))
+	router.AddHandler("/auth", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		data := r.PostForm
 
@@ -55,7 +54,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:           ":3000",
-		Handler:        appHandler,
+		Handler:        router,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
