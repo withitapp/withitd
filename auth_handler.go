@@ -25,7 +25,7 @@ func NewAuthHandler(db *dbase.Conn, fb *facebook.App) http.HandlerFunc {
 			panic(err)
 		}
 
-		fmt.Printf("User logged in: id: %s, %s", user.ID, user.FirstName)
+		fmt.Printf("User logged in: %v - %v\n", id, user.FirstName)
 
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jsonBlob)
