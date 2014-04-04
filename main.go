@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/huandu/facebook"
 	"github.com/withitapp/withitd/dbase"
 	"github.com/withitapp/withitd/fbook"
@@ -33,24 +31,7 @@ func main() {
 	router := NewRouter()
 	router.AddHandler("/users", NewControllerHandler(userController))
 	router.AddHandler("/polls", NewControllerHandler(pollController))
-	router.AddHandler("/auth", func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
-		data := r.PostForm
-
-		id := data["fb_id"][0]
-		token := data["fb_token"][0]
-		fmt.Println(id)
-		fmt.Println(token)
-
-		user := FetchUser(id, token)
-		jsonBlob, err := json.Marshal(user)
-		if err != nil {
-			panic(err)
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(jsonBlob)
-	})
+	router.AddHandler("/auth", NewAuthHandler())
 
 	server := &http.Server{
 		Addr:           ":3000",
