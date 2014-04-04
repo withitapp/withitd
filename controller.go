@@ -36,6 +36,7 @@ func NewControllerHandler(controller Controller) http.HandlerFunc {
 				response, err = controller.Index()
 			}
 		case "PUT", "POST":
+			r.ParseForm()
 			response, err = controller.Create(r.PostForm)
 		case "UPDATE":
 			err = controller.Update(id, r.PostForm)
