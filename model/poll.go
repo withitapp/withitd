@@ -34,8 +34,17 @@ func NewPollFromValues(values url.Values) (*Poll, error) {
 		return nil, errors.New("user_id is empty.")
 	}
 
+	if len(values["ends_at"]) == 0 {
+		return nil, errors.New("ends_at is empty.")
+	}
+
 	//Convert user ID to string
 	userID, err := strconv.Atoi(values["user_id"][0])
+	if err != nil {
+		return nil, err
+	}
+
+	endsAt, err := time.Parse(time.RFC3339, values["ends_at"][0])
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +55,7 @@ func NewPollFromValues(values url.Values) (*Poll, error) {
 		Title:       values["title"][0],
 		Description: values["description"][0],
 		UserID:      userID,
-		//EndsAt: value["ends_at"][0],
+		EndsAt:      endsAt,
 	}, nil
 }
 
