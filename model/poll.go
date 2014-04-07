@@ -22,20 +22,20 @@ type Poll struct {
 //Create a Poll object from URL values
 func NewPollFromValues(values url.Values) (*Poll, error) {
 
-	if len(values["title"]) == 0 {
+	if len(values.Get("title")) == 0 {
 		return nil, errors.New("title field is empty.")
 	}
 
-	if len(values["description"]) == 0 {
+	if len(values.Get("description")) == 0 {
 		return nil, errors.New("description field is empty.")
 	}
 
-	if len(values["user_id"]) == 0 {
-		return nil, errors.New("user_id is empty.")
+	if len(values.Get("user_id")) == 0 {
+		return nil, errors.New("user_id field is empty.")
 	}
 
-	if len(values["ends_at"]) == 0 {
-		return nil, errors.New("ends_at is empty.")
+	if len(values.Get("ends_at")) == 0 {
+		return nil, errors.New("ends_at field is empty.")
 	}
 
 	//Convert user ID to string
