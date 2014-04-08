@@ -52,8 +52,8 @@ func NewPollFromValues(values url.Values) (*Poll, error) {
 	return &Poll{
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
-		Title:       values["title"][0],
-		Description: values["description"][0],
+		Title:       values.Get("title"),
+		Description: values.Get("description"),
 		UserID:      userID,
 		EndsAt:      endsAt,
 	}, nil
