@@ -7,22 +7,25 @@ import (
 	"time"
 )
 
+const (
+	dbURL = "root:root@tcp(localhost:3306)/withit"
+	fbKey = "514907081964376"
+	fbSec = "39cb26381e1cb82ae689ff1d7755f577"
+)
+
 func main() {
-	db, err := dbase.NewConn("root:root@tcp(localhost:3306)/withit")
+	db, err := dbase.NewConn(dbURL)
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 
-	fb := facebook.New("514907081964376", "39cb26381e1cb82ae689ff1d7755f577")
+	fb := facebook.New(fbKey, fbSec)
 	fb.RedirectUri = "http://withitapp.com/"
 
-	userController := &UserController{db}
-	pollController := &PollController{db}
-
 	router := NewRouter()
-	router.AddHandler("/users", NewControllerHandler(userController))
-	router.AddHandler("/polls", NewControllerHandler(pollController))
+	router.AddHandler("/users", NewControllerHandler(&UserController{db}))
+	router.AddHandler("/polls", NewControllerHandler(&PollController{db}))
 	router.AddHandler("/auth", NewAuthHandler(db, fb))
 
 	server := &http.Server{
