@@ -35,7 +35,6 @@ func NewAuthHandler(db *dbase.Conn, fb *facebook.App) http.HandlerFunc {
 func FetchUser(db *dbase.Conn, fb *facebook.App, id, token string) *model.User {
 	user, err := db.UserTable.SelectBy("fb_id", id)
 	if err == nil && user != nil {
-		println("existing user")
 		return user.(*model.User)
 	}
 
@@ -70,6 +69,7 @@ func FetchUser(db *dbase.Conn, fb *facebook.App, id, token string) *model.User {
 		panic(err)
 	}
 
+	fmt.Printf("New user created: %v - %v\n", id, newUser.FirstName)
 	newUser.ID = newUserId
 
 	return newUser
