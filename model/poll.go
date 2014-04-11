@@ -39,12 +39,12 @@ func NewPollFromValues(values url.Values) (*Poll, error) {
 	}
 
 	//Convert user ID to string
-	userID, err := strconv.Atoi(values["user_id"][0])
+	userID, err := strconv.Atoi(values.Get("user_id"))
 	if err != nil {
 		return nil, err
 	}
 
-	endsAt, err := time.Parse(time.RFC3339, values["ends_at"][0])
+	endsAt, err := time.Parse(time.RFC3339, values.Get("ends_at"))
 	if err != nil {
 		return nil, err
 	}
