@@ -8,6 +8,7 @@ import (
 	"github.com/withitapp/withitd/fbook"
 	"github.com/withitapp/withitd/model"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -27,8 +28,72 @@ func NewAuthHandler(db *dbase.Conn, fb *facebook.App) http.HandlerFunc {
 
 		fmt.Printf("User logged in: %v - %v\n", id, user.FirstName)
 
+		FetchFriends(db, fb, user)
+
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jsonBlob)
+	}
+}
+
+func FetchFriends(db *dbase.Conn, fb *facebook.App, user *model.User) {
+	session := fb.Session(user.FbToken)
+
+	res, err := session.Get("/me/friends?fields=installed", nil)
+	err = session.Validate()
+	if err != nil {
+		panic(err)
+	}
+
+	var response struct {
+		Data []struct {
+			Id        string
+			Installed bool
+		}
+	}
+
+	err = res.Decode(&response)
+	if err != nil {
+		panic(err)
+	}
+
+	friendships, err := db.FriendshipTable.SelectAllBy("alpha_id", strconv.Itoa(user.ID))
+	if err != nil {
+		panic(err)
+	}
+
+	betaExists := func(oldFriendships []*model.Friendship, betaID int) bool {
+		for _, oldFriendship := range friendships.([]*model.Friendship) {
+			if oldFriendship.BetaID == betaID {
+				return true
+			}
+		}
+
+		return false
+	}
+
+	for _, fbUser := range response.Data {
+		if !fbUser.Installed {
+			continue
+		}
+
+		friendUser, err := db.UserTable.SelectBy("fb_id", fbUser.Id)
+		if err != nil && user == nil {
+			continue
+		}
+
+		if betaExists(friendships.([]*model.Friendship), friendUser.(*model.User).ID) {
+			continue
+		}
+
+		friendship := &model.Friendship{
+			AlphaID: user.ID,
+			BetaID:  friendUser.(*model.User).ID,
+		}
+
+		_, err = db.FriendshipTable.Insert(friendship)
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
