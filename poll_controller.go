@@ -21,7 +21,17 @@ func (c *PollController) Show(id int) (interface{}, error) {
 }
 
 func (c *PollController) Create(values url.Values) (int, error) {
-	return 0, errors.New("cntrl.PollController.Create(): not implemented")
+	poll, err := model.NewPollFromValues(values)
+	if err != nil {
+		panic(err)
+	}
+
+	pollID, err := c.Conn.PollTable.Insert(poll)
+	if err != nil {
+		panic(err)
+	}
+
+	return pollID, nil
 }
 
 func (c *PollController) Update(id int, values url.Values) error {
