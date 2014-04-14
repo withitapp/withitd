@@ -38,5 +38,5 @@ func (c *MembershipController) Update(id int, values url.Values) error {
 }
 
 func (c *MembershipController) Delete(id int) error {
-	return errors.New("cntrl.MembershipController.Delete(): not implemented")
+	return c.Conn.MembershipTable.Delete(id)
 }
