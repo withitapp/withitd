@@ -23,7 +23,7 @@ func NewControllerHandler(controller Controller) http.HandlerFunc {
 			id       int
 		)
 
-		idString := r.URL.Query().Get("id")
+		idString := r.FormValue("id")
 		if idString != "" {
 			id, err = strconv.Atoi(idString)
 		}
