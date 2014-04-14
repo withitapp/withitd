@@ -7,9 +7,8 @@ import (
 	"net/http"
 )
 
-//Using poll_id paramater, returns members of poll
-//TODO add fb *facebook.App to
-func NewMembershipsHandler(db *dbase.Conn) http.HandlerFunc {
+// Using poll_id paramater, returns members of poll
+func NewMembersHandler(db *dbase.Conn) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		data := r.PostForm
