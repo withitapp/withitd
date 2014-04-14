@@ -39,5 +39,5 @@ func (c *PollController) Update(id int, values url.Values) error {
 }
 
 func (c *PollController) Delete(id int) error {
-	return errors.New("cntrl.PollController.Delete(): not implemented")
+	return c.Conn.PollTable.Delete(id)
 }
