@@ -1,11 +1,5 @@
 package fbook
 
-/*
-import (
-	"time"
-)
-*/
-
 type User struct {
 	ID                 string `json:"id" facebook:"id,required"`
 	Bio                string `json:"bio" facebook:"bio"`
