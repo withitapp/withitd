@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/huandu/facebook"
+	"github.com/withitapp/facebook"
 	"github.com/withitapp/withitd/dbase"
 	"github.com/withitapp/withitd/fbook"
 	"github.com/withitapp/withitd/model"

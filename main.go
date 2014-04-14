@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/huandu/facebook"
+	"github.com/withitapp/facebook"
 	"github.com/withitapp/withitd/dbase"
 	"net/http"
 	"time"
