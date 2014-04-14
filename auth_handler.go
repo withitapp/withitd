@@ -86,8 +86,9 @@ func FetchFriends(db *dbase.Conn, fb *facebook.App, user *model.User) {
 		}
 
 		friendship := &model.Friendship{
-			AlphaID: user.ID,
-			BetaID:  friendUser.(*model.User).ID,
+			CreatedAt: time.Now(),
+			AlphaID:   user.ID,
+			BetaID:    friendUser.(*model.User).ID,
 		}
 
 		_, err = db.FriendshipTable.Insert(friendship)

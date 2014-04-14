@@ -36,7 +36,6 @@ CREATE TABLE `memberships` (
 CREATE TABLE `friendships` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`created_at` DATETIME NOT NULL,
-	`updated_at` DATETIME NOT NULL,
 	`alpha_id` INT NOT NULL,
 	`beta_id` INT NOT NULL,
 	PRIMARY KEY (`id`)
