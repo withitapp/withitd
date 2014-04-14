@@ -29,6 +29,7 @@ func main() {
 	router.AddHandler("/memberships", NewControllerHandler(&MembershipController{db}))
 	router.AddHandler("/auth", NewAuthHandler(db, fb))
 	router.AddHandler("/members", NewMembersHandler(db))
+	router.AddHandler("/friends", NewFriendsHandler(db))
 
 	server := &http.Server{
 		Addr:           ":3000",
