@@ -10,9 +10,7 @@ import (
 // Using poll_id paramater, returns members of poll
 func NewMembersHandler(db *dbase.Conn) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
-
-		pollID := r.Form.Get("poll_id")
+		pollID := r.FormValue("poll_id")
 
 		members, err := db.SelectAllMembersOfPoll(pollID)
 		if err != nil {

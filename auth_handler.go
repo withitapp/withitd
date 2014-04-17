@@ -14,11 +14,8 @@ import (
 
 func NewAuthHandler(db *dbase.Conn, fb *facebook.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
-		data := r.PostForm
-
-		id := data["fb_id"][0]
-		token := data["fb_token"][0]
+		id := r.FormValue("fb_id")
+		token := r.FormValue("fb_token")
 
 		user := FetchUser(db, fb, id, token)
 		jsonBlob, err := json.Marshal(user)
