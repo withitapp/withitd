@@ -39,3 +39,16 @@ func NewConn(url string) (*Conn, error) {
 func (c *Conn) Close() {
 	c.dbConn.Close()
 }
+
+func (c *Conn) SelectAllMembersOfPoll(pollID string) ([]*model.User, error) {
+	query := "select users.* "
+	query += "from users, memberships "
+	query += "where " + pollID + "=memberships.poll_id AND memberships.user_id = users.id"
+
+	members, err := c.UserTable.Query(query)
+	if err != nil {
+		return nil, err
+	}
+
+	return members.([]*model.User), nil
+}
