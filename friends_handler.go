@@ -10,11 +10,7 @@ func NewFriendsHandler(db *dbase.Conn) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userID := r.FormValue("user_id")
 
-		query := "select users.* "
-		query += "from users, friendships "
-		query += "where " + userID + "=friendships.alpha_id AND friendships.beta_id = users.id"
-
-		friends, err := db.UserTable.Query(query)
+		friends, err := db.SelectAllFriendsOfUser(userID)
 		if err != nil {
 			panic(err)
 		}

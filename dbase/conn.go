@@ -52,3 +52,16 @@ func (c *Conn) SelectAllMembersOfPoll(pollID string) ([]*model.User, error) {
 
 	return members.([]*model.User), nil
 }
+
+func (c *Conn) SelectAllFriendsOfUser(userID string) ([]*model.User, error) {
+	query := "select users.* "
+	query += "from users, friendships "
+	query += "where " + userID + "=friendships.alpha_id AND friendships.beta_id = users.id"
+
+	friends, err := c.UserTable.Query(query)
+	if err != nil {
+		return nil, err
+	}
+
+	return friends.([]*model.User), err
+}
