@@ -8,9 +8,7 @@ import (
 
 func NewFriendsHandler(db *dbase.Conn) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
-
-		userID := r.Form.Get("user_id")
+		userID := r.FormValue("user_id")
 
 		query := "select users.* "
 		query += "from users, friendships "
