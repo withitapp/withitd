@@ -41,11 +41,10 @@ func (c *Conn) Close() {
 }
 
 func (c *Conn) SelectAllMembersOfPoll(pollID string) ([]*model.User, error) {
-	query := "select users.* "
-	query += "from users, memberships "
-	query += "where " + pollID + "=memberships.poll_id AND memberships.user_id = users.id"
+	query := "SELECT users.* FROM users, memberships "
+	query += "WHERE memberships.poll_id = ? AND memberships.user_id = users.id"
 
-	members, err := c.UserTable.Query(query)
+	members, err := c.UserTable.Query(query, pollID)
 	if err != nil {
 		return nil, err
 	}
@@ -54,11 +53,10 @@ func (c *Conn) SelectAllMembersOfPoll(pollID string) ([]*model.User, error) {
 }
 
 func (c *Conn) SelectAllFriendsOfUser(userID string) ([]*model.User, error) {
-	query := "select users.* "
-	query += "from users, friendships "
-	query += "where " + userID + "=friendships.alpha_id AND friendships.beta_id = users.id"
+	query := "SELECT users.* FROM users, friendships "
+	query += "WHERE friendships.alpha_id = ? AND friendships.beta_id = users.id"
 
-	friends, err := c.UserTable.Query(query)
+	friends, err := c.UserTable.Query(query, userID)
 	if err != nil {
 		return nil, err
 	}
