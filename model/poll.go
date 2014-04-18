@@ -59,6 +59,44 @@ func NewPollFromValues(values url.Values) (*Poll, error) {
 	}, nil
 }
 
+func (p *Poll) UpdateFromValues(values url.Values) error {
+
+	p.UpdatedAt = time.Now()
+
+	if values.Get("title") == "" {
+		return errors.New("title field is empty.")
+	}
+	p.Title = values.Get("title")
+
+	if len(values.Get("description")) == 0 {
+		return errors.New("description field is empty.")
+	}
+	p.Description = values.Get("description")
+
+	if len(values.Get("user_id")) == 0 {
+		return errors.New("user_id field is empty.")
+	}
+
+	if len(values.Get("ends_at")) == 0 {
+		return errors.New("ends_at field is empty.")
+	}
+
+	//Convert user ID to string
+	userID, err := strconv.Atoi(values.Get("user_id"))
+	if err != nil {
+		return err
+	}
+	p.UserID = userID
+
+	endsAt, err := time.Parse(time.RFC3339, values.Get("ends_at"))
+	if err != nil {
+		return err
+	}
+	p.EndsAt = endsAt
+
+	return nil
+}
+
 func (p *Poll) Validate() error {
 	stringLengthMax := 25
 	stringLengthMin := 4
