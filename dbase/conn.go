@@ -63,3 +63,15 @@ func (c *Conn) SelectAllFriendsOfUser(userID string) ([]*model.User, error) {
 
 	return friends.([]*model.User), err
 }
+
+func (c *Conn) DeleteAllMembersOfPoll(pollID int) error{
+	query := "DELETE FROM memberships "
+	query += "WHERE memberships.poll_ID = ?"
+
+	_, err := c.MembershipTable.Query(query, pollID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

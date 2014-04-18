@@ -39,5 +39,12 @@ func (c *PollController) Update(id int, values url.Values) error {
 }
 
 func (c *PollController) Delete(id int) error {
+	//TODO remove all membership rows for this poll ID
+	err := c.Conn.DeleteAllMembersOfPoll(id)
+	if err != nil {
+		return err
+	}
+
+	//Remove poll from database
 	return c.Conn.PollTable.Delete(id)
 }
