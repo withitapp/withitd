@@ -5,6 +5,7 @@ import (
 	"github.com/withitapp/withitd/dbase"
 	"github.com/withitapp/withitd/model"
 	"net/url"
+	"strconv"
 )
 
 type PollController struct {
@@ -40,11 +41,20 @@ func (c *PollController) Update(id int, values url.Values) error {
 
 func (c *PollController) Delete(id int) error {
 	//TODO remove all membership rows for this poll ID
-	err := c.Conn.DeleteAllMembersOfPoll(id)
+
+	//Convert ID numbers to string
+	membershipID := strconv.Itoa(id)
+
+	//select all memberships based on pollID
+	memberships, err := c.Conn.MembershipTable.SelectAllBy("pollID", membershipID)
 	if err != nil {
 		return err
 	}
 
-	//Remove poll from database
+	//iterate through all memberships to delete
+	for _, membership := range memberships.([]*model.Membership) {
+		c.Conn.MembershipTable.Delete(membership.ID)
+	}
+
 	return c.Conn.PollTable.Delete(id)
 }
