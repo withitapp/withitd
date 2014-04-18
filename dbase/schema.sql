@@ -29,7 +29,7 @@ CREATE TABLE `memberships` (
 	`updated_at` DATETIME NOT NULL,
 	`user_id` INT NOT NULL,
 	`poll_id` INT NOT NULL,
-	`response` bit NOT NULL, 
+	`response` TINYINT(1) NOT NULL, 
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 

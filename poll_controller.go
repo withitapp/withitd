@@ -40,20 +40,22 @@ func (c *PollController) Update(id int, values url.Values) error {
 }
 
 func (c *PollController) Delete(id int) error {
-	//TODO remove all membership rows for this poll ID
-
 	//Convert ID numbers to string
-	membershipID := strconv.Itoa(id)
+	pollID := strconv.Itoa(id)
 
 	//select all memberships based on pollID
-	memberships, err := c.Conn.MembershipTable.SelectAllBy("pollID", membershipID)
+	memberships, err := c.Conn.MembershipTable.SelectAllBy("poll_id", pollID)
 	if err != nil {
+		panic(err)
 		return err
 	}
 
 	//iterate through all memberships to delete
 	for _, membership := range memberships.([]*model.Membership) {
-		c.Conn.MembershipTable.Delete(membership.ID)
+		err := c.Conn.MembershipTable.Delete(membership.ID)
+		if err != nil {
+			return err
+		}
 	}
 
 	return c.Conn.PollTable.Delete(id)
