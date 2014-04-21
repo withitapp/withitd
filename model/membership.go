@@ -55,3 +55,14 @@ func NewMembershipFromValues(values url.Values) (*Membership, error) {
 		Response:  pollResponse,
 	}, nil
 }
+
+func (m *Membership) UpdateFromValues(values url.Values) error {
+	m.UpdatedAt = time.Now()
+
+	m.Response = false
+	if values.Get("response") == "true" {
+		m.Response = true
+	}
+
+	return nil
+}
