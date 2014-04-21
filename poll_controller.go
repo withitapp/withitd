@@ -11,7 +11,7 @@ type PollController struct {
 	Conn *dbase.Conn
 }
 
-func (c *PollController) Index() (interface{}, error) {
+func (c *PollController) Index(values url.Values) (interface{}, error) {
 	polls, err := c.Conn.PollTable.SelectAllBy("", "")
 	return polls.([]*model.Poll), err
 }

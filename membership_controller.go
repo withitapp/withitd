@@ -11,8 +11,8 @@ type MembershipController struct {
 	Conn *dbase.Conn
 }
 
-func (c *MembershipController) Index() (interface{}, error) {
-	return nil, errors.New("cntrl.MemberhsipController.Index(): not implemented")
+func (c *MembershipController) Index(values url.Values) (interface{}, error) {
+	return c.Conn.MembershipTable.SelectAllBy("poll_id", values.Get("poll_id"))
 }
 
 func (c *MembershipController) Show(id int) (interface{}, error) {

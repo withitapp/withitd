@@ -10,7 +10,7 @@ type UserController struct {
 	Conn *dbase.Conn
 }
 
-func (c *UserController) Index() (interface{}, error) {
+func (c *UserController) Index(values url.Values) (interface{}, error) {
 	return nil, nil
 }
 
