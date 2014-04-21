@@ -23,12 +23,12 @@ func (c *PollController) Show(id int) (interface{}, error) {
 func (c *PollController) Create(values url.Values) (int, error) {
 	poll, err := model.NewPollFromValues(values)
 	if err != nil {
-		panic(err)
+		return 0, err
 	}
 
 	pollID, err := c.Conn.PollTable.Insert(poll)
 	if err != nil {
-		panic(err)
+		return 0, err
 	}
 
 	return pollID, nil
