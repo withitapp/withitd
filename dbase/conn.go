@@ -40,6 +40,18 @@ func (c *Conn) Close() {
 	c.dbConn.Close()
 }
 
+func (c *Conn) SelectAllPollsOfUser(userID string) ([]*model.Poll, error) {
+	query := "SELECT polls.* FROM polls, memberships "
+	query += "WHERE memberships.user_id = ? AND polls.id = memberships.poll_id"
+
+	polls, err := c.PollTable.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	return polls.([]*model.Poll), nil
+}
+
 func (c *Conn) SelectAllMembersOfPoll(pollID string) ([]*model.User, error) {
 	query := "SELECT users.* FROM users, memberships "
 	query += "WHERE memberships.poll_id = ? AND memberships.user_id = users.id"

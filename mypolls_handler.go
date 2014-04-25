@@ -6,17 +6,16 @@ import (
 	"net/http"
 )
 
-// Using poll_id paramater, returns members of poll
-func NewMembersHandler(db *dbase.Conn) http.HandlerFunc {
+func NewMypollsHandler(db *dbase.Conn) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		pollID := r.FormValue("poll_id")
+		userID := r.FormValue("user_id")
 
-		members, err := db.SelectAllMembersOfPoll(pollID)
+		polls, err := db.SelectAllPollsOfUser(userID)
 		if err != nil {
 			panic(err)
 		}
 
-		jsonBlob, err := json.Marshal(members)
+		jsonBlob, err := json.Marshal(polls)
 		if err != nil {
 			panic(err)
 		}
