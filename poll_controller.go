@@ -35,7 +35,6 @@ func (c *PollController) Create(values url.Values) (int, error) {
 }
 
 func (c *PollController) Update(id int, values url.Values) error {
-	//TODO update the poll
 	poll, err := c.Conn.PollTable.Select(id)
 	if err != nil {
 		return err
@@ -46,14 +45,7 @@ func (c *PollController) Update(id int, values url.Values) error {
 		return err
 	}
 
-	err = c.Conn.PollTable.Update(poll.(*model.Poll))
-	if err != nil {
-		return err
-	}
-
-	return nil
-	//and we are at the end of the function
-	//yeah
+	return c.Conn.PollTable.Update(poll.(*model.Poll))
 }
 
 func (c *PollController) Delete(id int) error {

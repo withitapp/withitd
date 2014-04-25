@@ -35,11 +35,13 @@ func NewControllerHandler(controller Controller) http.HandlerFunc {
 			} else {
 				response, err = controller.Index(r.Form)
 			}
-		case "PUT", "POST":
-			id, err = controller.Create(r.PostForm)
-			response = map[string]int{"id": id}
-		case "PATCH":
-			err = controller.Update(id, r.Form)
+		case "PUT", "POST", "PATCH":
+			if id == 0 {
+				id, err = controller.Create(r.Form)
+				response = map[string]int{"id": id}
+			} else {
+				err = controller.Update(id, r.Form)
+			}
 		case "DELETE":
 			err = controller.Delete(id)
 		default:
