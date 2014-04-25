@@ -36,7 +36,7 @@ func NewControllerHandler(controller Controller) http.HandlerFunc {
 				response, err = controller.Index(r.Form)
 			}
 		case "PUT", "POST", "PATCH":
-			if id == 0 {
+			if idString == "" {
 				id, err = controller.Create(r.Form)
 				response = map[string]int{"id": id}
 			} else {
