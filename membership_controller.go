@@ -22,19 +22,29 @@ func (c *MembershipController) Show(id int) (interface{}, error) {
 func (c *MembershipController) Create(values url.Values) (int, error) {
 	membership, err := model.NewMembershipFromValues(values)
 	if err != nil {
-		panic(err)
+		return 0, err
 	}
 
 	membershipID, err := c.Conn.MembershipTable.Insert(membership)
 	if err != nil {
-		panic(err)
+		return 0, err
 	}
 
 	return membershipID, nil
 }
 
 func (c *MembershipController) Update(id int, values url.Values) error {
-	return errors.New("cntrl.MembershipController.Update(): not implemented")
+	membership, err := c.Conn.MembershipTable.Select(id)
+	if err != nil {
+		return err
+	}
+
+	err = membership.(*model.Membership).UpdateFromValues(values)
+	if err != nil {
+		return err
+	}
+
+	return c.Conn.MembershipTable.Update(membership)
 }
 
 func (c *MembershipController) Delete(id int) error {
